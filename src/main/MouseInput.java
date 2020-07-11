@@ -14,6 +14,7 @@ public class MouseInput extends MouseAdapter {
 	
 	public void mouseClicked(MouseEvent e) {
 		Point point = e.getPoint();
+		handler.onMouseClicked(point);
 	}
 	
 }

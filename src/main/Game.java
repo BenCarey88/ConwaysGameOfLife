@@ -9,14 +9,16 @@ public class Game extends Canvas implements Runnable {
 	
 	private static final long serialVersionUID = -6908316181518512737L;
 
-	public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+	public static final int WIDTH = 1000, HEIGHT = WIDTH / 12 * 9;
 	
 	private Thread thread;
 	private boolean running = false;
+	private Grid grid;
 	
 	public Game() {
-		Handler handler = new Handler();
-		this.addMouseListener(new MouseInput());
+		grid = new Grid(5, 5, 50, 5);
+		Handler handler = new Handler(grid);
+		this.addMouseListener(new MouseInput(handler));
 		new Window(WIDTH, HEIGHT, "Conway's Game of Life", this);
 	}
 	
@@ -76,13 +78,13 @@ public class Game extends Canvas implements Runnable {
 			this.createBufferStrategy(3);
 			return;
 		}
+		Graphics graphics = bs.getDrawGraphics();
 
-		Graphics g = bs.getDrawGraphics();
+		graphics.setColor(Color.white);
+		graphics.fillRect(0, 0, WIDTH, HEIGHT);
+		grid.render(graphics);
 
-		g.setColor(Color.green);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-
-		g.dispose();
+		graphics.dispose();
 		bs.show();
 	}
 	
